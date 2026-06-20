@@ -1,0 +1,10 @@
+# Konfigurasi Claude Code (bukan bagian aplikasi)
+.claude/
+
+# File OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
