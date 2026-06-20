@@ -1,6 +1,26 @@
 # Konfigurasi Claude Code (bukan bagian aplikasi)
 .claude/
 
+# Dependencies
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment & secrets
+.env
+.env.backup
+.env.production
+auth.json
+
+# Laravel
+storage/*.key
+/public/build
+/public/storage
+/storage/pail
+.phpunit.result.cache
+bootstrap/compiled.php
+
 # File OS
 .DS_Store
 Thumbs.db
@@ -8,3 +28,4 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+.phpactor.json
