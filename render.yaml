@@ -1,0 +1,72 @@
+# Blueprint Render untuk ScoreMate (backend Laravel + frontend React).
+# Cara pakai: push file ini ke GitHub → Render Dashboard → New → Blueprint →
+# pilih repo ScoreMate. Variabel "sync: false" WAJIB diisi manual di dashboard
+# (nilai rahasia / baru diketahui setelah service jadi). autoDeploy aktif default
+# → setiap push ke main akan men-deploy ulang (ini bagian CD).
+services:
+  # ---------------- Backend Laravel (Docker web service) ----------------
+  - type: web
+    name: scoremate-api
+    runtime: docker
+    rootDir: backend
+    plan: free
+    region: singapore           # dekat Supabase ap-southeast-1
+    healthCheckPath: /api/v1/ping
+    envVars:
+      - key: APP_NAME
+        value: ScoreMate
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false             # isi: hasil `php artisan key:generate --show`
+      - key: APP_URL
+        sync: false             # isi: URL backend Render setelah service jadi
+      - key: LOG_CHANNEL
+        value: stderr           # log muncul di console Render
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        sync: false             # host pooler Supabase
+      - key: DB_PORT
+        value: "6543"
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        sync: false             # postgres.<project_ref>
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SSLMODE
+        value: require
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: OPENAI_URL
+        value: https://api.openai.com/v1
+      - key: FRONTEND_URL
+        sync: false             # isi: URL frontend Render (agar lolos CORS)
+
+  # ---------------- Frontend React (static site) ----------------
+  - type: web
+    name: scoremate-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    routes:
+      # SPA rewrite: semua path → index.html (wajib untuk React Router).
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false             # isi: https://<backend>.onrender.com/api/v1

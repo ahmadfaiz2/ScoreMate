@@ -14,11 +14,15 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
+    'allowed_origins' => array_filter([
         env('FRONTEND_URL', 'http://localhost:5173'),
-    ],
+    ]),
 
-    'allowed_origins_patterns' => [],
+    // Saat development, izinkan semua port localhost (Vite kadang pindah port).
+    'allowed_origins_patterns' => [
+        '/^http:\/\/localhost:\d+$/',
+        '/^http:\/\/127\.0\.0\.1:\d+$/',
+    ],
 
     'allowed_headers' => ['*'],
 

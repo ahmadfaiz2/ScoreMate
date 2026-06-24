@@ -1,0 +1,11 @@
+# Jangan ikutkan ke image: rahasia, dependency yang dibangun ulang, & sampah.
+.git
+.gitignore
+.env
+.env.*
+vendor
+node_modules
+storage/logs/*.log
+tests
+.phpunit.result.cache
+README.md
