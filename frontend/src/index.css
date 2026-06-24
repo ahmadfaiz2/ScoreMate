@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/*
+  Design system ScoreMate — "score report, reimagined as a coach".
+  Light mode, primary hijau. Lihat dokumentasi_tugas/08-ui-design.md.
+*/
+@theme {
+  /* Brand */
+  --color-primary: #22c55e;
+  --color-primary-deep: #15803d; /* hover, teks hijau readable di atas putih */
+  --color-primary-soft: #dcfce7; /* background card/badge lembut */
+  --color-bubble: #bef264; /* aksen lime — elemen signature */
+
+  /* Neutral brand-tinted */
+  --color-ink: #0b1f17; /* teks utama (forest gelap) */
+  --color-paper: #f5f8f4; /* background halaman (off-white kehijauan) */
+
+  /* Kode kategori soal */
+  --color-reading: #3b82f6;
+  --color-listening: #8b5cf6;
+  --color-writing: #f59e0b;
+
+  /* Status */
+  --color-danger: #ef4444;
+
+  /* Tipografi */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Inter', sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-ink;
+  }
+  /* Angka skor & timer memakai mono tabular agar tegak seperti score report. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
