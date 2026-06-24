@@ -8,6 +8,7 @@ use App\Models\PracticeSession;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class HistoryController extends Controller
 {
@@ -35,7 +36,7 @@ class HistoryController extends Controller
             ]);
 
         $exam = ExamSession::where('user_id', $userId)
-            ->where('status', 'completed')
+            ->completed()
             ->get()
             ->map(fn ($s) => [
                 'id'              => $s->id,
@@ -50,7 +51,7 @@ class HistoryController extends Controller
 
         $history = $practice->concat($exam)
             ->sortByDesc('sorted_at')
-            ->map(fn ($item) => collect($item)->except('sorted_at'))
+            ->map(fn ($item) => Arr::except($item, 'sorted_at'))
             ->values();
 
         return $this->successResponse($history);

@@ -16,8 +16,6 @@ class QuestionController extends Controller
 {
     use ApiResponse;
 
-    private const CATEGORIES = ['reading', 'listening', 'writing'];
-
     // Poin per jawaban benar (sesuai 03-api-spec.md).
     private const POINTS_PER_CORRECT = 10;
 
@@ -29,7 +27,7 @@ class QuestionController extends Controller
     {
         $category = $request->query('category');
 
-        if (! in_array($category, self::CATEGORIES, true)) {
+        if (! in_array($category, Question::CATEGORIES, true)) {
             return $this->errorResponse('Kategori tidak ditemukan', 404);
         }
 

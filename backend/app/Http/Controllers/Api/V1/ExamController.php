@@ -16,8 +16,6 @@ class ExamController extends Controller
 {
     use ApiResponse;
 
-    private const CATEGORIES = ['reading', 'listening', 'writing'];
-
     private const DURATION_MINUTES = 60;
 
     /**
@@ -36,7 +34,7 @@ class ExamController extends Controller
 
         $exam = ExamSession::create([
             'user_id'         => $request->user()->id,
-            'status'          => 'ongoing',
+            'status'          => ExamSession::STATUS_ONGOING,
             'total_questions' => $questions->count(),
             'started_at'      => now(),
         ]);
@@ -56,7 +54,7 @@ class ExamController extends Controller
     {
         $exam = ExamSession::where('id', $request->exam_id)
             ->where('user_id', $request->user()->id)
-            ->where('status', 'ongoing')
+            ->where('status', ExamSession::STATUS_ONGOING)
             ->first();
 
         if (! $exam) {
@@ -67,7 +65,7 @@ class ExamController extends Controller
         $questionIds = collect($request->answers)->pluck('question_id');
         $questions   = Question::whereIn('id', $questionIds)->get()->keyBy('id');
 
-        $perCategory = array_fill_keys(self::CATEGORIES, ['correct' => 0, 'total' => 0]);
+        $perCategory = array_fill_keys(Question::CATEGORIES, ['correct' => 0, 'total' => 0]);
         $totalCorrect = 0;
 
         foreach ($request->answers as $item) {
@@ -92,7 +90,7 @@ class ExamController extends Controller
         }
 
         $scoreByCategory = [];
-        foreach (self::CATEGORIES as $cat) {
+        foreach (Question::CATEGORIES as $cat) {
             $scoreByCategory[$cat] = ScoreCalculator::percentage(
                 $perCategory[$cat]['correct'],
                 $perCategory[$cat]['total']
@@ -103,7 +101,7 @@ class ExamController extends Controller
         $totalScore     = ScoreCalculator::percentage($totalCorrect, $totalQuestions);
 
         $exam->update([
-            'status'          => 'completed',
+            'status'          => ExamSession::STATUS_COMPLETED,
             'correct_answers' => $totalCorrect,
             'total_score'     => $totalScore,
             'reading_score'   => $scoreByCategory['reading'],

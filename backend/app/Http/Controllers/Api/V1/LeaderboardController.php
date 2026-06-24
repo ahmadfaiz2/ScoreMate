@@ -20,7 +20,7 @@ class LeaderboardController extends Controller
     public function index(Request $request): JsonResponse
     {
         // Skor terbaik per user dari ujian yang selesai.
-        $bestScores = ExamSession::where('status', 'completed')
+        $bestScores = ExamSession::completed()
             ->selectRaw('user_id, MAX(total_score) as score')
             ->groupBy('user_id')
             ->orderByDesc('score')

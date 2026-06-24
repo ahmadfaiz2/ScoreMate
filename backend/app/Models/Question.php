@@ -10,6 +10,9 @@ class Question extends Model
 {
     use HasFactory;
 
+    /** Kategori soal TOEFL yang valid (dipakai bersama oleh controller). */
+    public const CATEGORIES = ['reading', 'listening', 'writing'];
+
     protected $fillable = [
         'category',
         'type',

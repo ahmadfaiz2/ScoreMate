@@ -7,16 +7,16 @@ use App\Models\ExamAnswer;
 use App\Models\ExamSession;
 use App\Models\PracticeAnswer;
 use App\Models\PracticeSession;
+use App\Models\Question;
 use App\Support\ScoreCalculator;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class DashboardController extends Controller
 {
     use ApiResponse;
-
-    private const CATEGORIES = ['reading', 'listening', 'writing'];
 
     /**
      * GET /dashboard
@@ -51,11 +51,11 @@ class DashboardController extends Controller
     /**
      * Persentase jawaban benar per kategori.
      */
-    private function scoreByCategory($answers): array
+    private function scoreByCategory(Collection $answers): array
     {
         $result = [];
 
-        foreach (self::CATEGORIES as $category) {
+        foreach (Question::CATEGORIES as $category) {
             $inCategory = $answers->filter(fn ($a) => $a->question?->category === $category);
             $count      = $inCategory->count();
             $correct    = $inCategory->where('is_correct', true)->count();
@@ -79,7 +79,7 @@ class DashboardController extends Controller
             ]);
 
         $exam = ExamSession::where('user_id', $userId)
-            ->where('status', 'completed')
+            ->completed()
             ->get(['total_score', 'created_at'])
             ->map(fn ($s) => [
                 'date'  => $s->created_at->toDateString(),

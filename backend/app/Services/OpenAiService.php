@@ -63,13 +63,20 @@ class OpenAiService implements AiFeedbackContract
      */
     private function toText(mixed $value): string
     {
-        if (is_array($value)) {
-            return array_is_list($value)
-                ? implode("\n", array_map(fn ($item) => is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : (string) $item, $value))
-                : (string) json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if (! is_array($value)) {
+            return (string) $value;
         }
 
-        return (string) $value;
+        // Objek asosiatif (mis. {"grammar": "..."}) ditampilkan sebagai JSON rapi.
+        if (! array_is_list($value)) {
+            return (string) json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }
+
+        // Daftar (mis. beberapa saran) digabung baris per baris.
+        return implode("\n", array_map(
+            fn ($item) => is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : (string) $item,
+            $value,
+        ));
     }
 
     /**
