@@ -1,5 +1,5 @@
-# Image produksi backend Laravel ScoreMate untuk Render.
-# Render tidak punya runtime PHP native → kita pakai Docker (PHP 8.4 + Apache).
+# Image produksi backend Laravel ScoreMate (Docker — untuk EasyPanel/VPS).
+# PHP 8.4 + Apache, terhubung ke Supabase (PostgreSQL).
 FROM php:8.4-apache
 
 # 1) Paket sistem + ekstensi PHP. Supabase = PostgreSQL → wajib pdo_pgsql.
@@ -24,7 +24,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 # 5) Arahkan docroot Apache ke folder public/.
 COPY docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 
-# 6) Entrypoint: set port Render, optimasi config, migrate, lalu jalankan Apache.
+# 6) Entrypoint: set port, optimasi config, migrate, lalu jalankan Apache.
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh \
     && chmod +x /usr/local/bin/entrypoint.sh
