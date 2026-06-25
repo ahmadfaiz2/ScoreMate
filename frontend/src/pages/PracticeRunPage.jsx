@@ -6,6 +6,7 @@ import Card from '../components/ui/Card'
 import Bubble from '../components/ui/Bubble'
 import Button from '../components/ui/Button'
 import ScoreBadge from '../components/ui/ScoreBadge'
+import Notice from '../components/ui/Notice'
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
 
@@ -114,7 +115,7 @@ function PracticeRun({ category }) {
   // --- Status non-soal ---
   if (!valid) {
     return (
-      <Notice>
+      <Notice className="mx-auto max-w-2xl">
         Kategori ini belum tersedia untuk latihan pilihan ganda.{' '}
         <Link to="/practice" className="font-semibold text-primary-deep">
           Kembali ke Latihan
@@ -123,11 +124,11 @@ function PracticeRun({ category }) {
     )
   }
   if (status === 'loading') {
-    return <Notice>Memuat soal…</Notice>
+    return <Notice className="mx-auto max-w-2xl">Memuat soal…</Notice>
   }
   if (status === 'error') {
     return (
-      <Notice>
+      <Notice className="mx-auto max-w-2xl">
         Gagal memuat soal.{' '}
         <Link to="/practice" className="font-semibold text-primary-deep">
           Kembali ke Latihan
@@ -137,7 +138,7 @@ function PracticeRun({ category }) {
   }
   if (status === 'empty') {
     return (
-      <Notice>
+      <Notice className="mx-auto max-w-2xl">
         Belum ada soal untuk kategori {meta.label}.{' '}
         <Link to="/practice" className="font-semibold text-primary-deep">
           Pilih kategori lain
@@ -284,12 +285,5 @@ function PracticeRun({ category }) {
         </div>
       </Card>
     </div>
-  )
-}
-
-/** Pesan status terpusat (loading/kosong/error). */
-function Notice({ children }) {
-  return (
-    <div className="mx-auto max-w-2xl py-12 text-center text-sm text-gray-500">{children}</div>
   )
 }

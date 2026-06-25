@@ -5,6 +5,7 @@ import { CATEGORIES } from '../lib/categories'
 import { formatDate } from '../lib/format'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
+import Notice from '../components/ui/Notice'
 
 // Tampilan per entri: ujian = ink (semua kategori), latihan = warna kategori.
 function entryMeta(item) {
@@ -101,9 +102,4 @@ export default function HistoryPage() {
       )}
     </div>
   )
-}
-
-/** Pesan status terpusat (loading/error). */
-function Notice({ children }) {
-  return <div className="py-12 text-center text-sm text-gray-500">{children}</div>
 }

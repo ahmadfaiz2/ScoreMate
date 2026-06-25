@@ -7,6 +7,7 @@ import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import ScoreBadge from '../components/ui/ScoreBadge'
 import Markdown from '../components/ui/Markdown'
+import Notice from '../components/ui/Notice'
 
 const TARGET_WORDS = 150 // Independent writing TOEFL menyarankan ≥150 kata.
 const MIN_WORDS = 10 // Cegah kirim esai kosong/terlalu pendek ke layanan AI.
@@ -94,10 +95,10 @@ export default function WritingPage() {
   }
 
   // --- Status non-konten ---
-  if (status === 'loading') return <Notice>Memuat prompt writing…</Notice>
+  if (status === 'loading') return <Notice className="mx-auto max-w-2xl">Memuat prompt writing…</Notice>
   if (status === 'error') {
     return (
-      <Notice>
+      <Notice className="mx-auto max-w-2xl">
         Gagal memuat soal writing.{' '}
         <Link to="/practice" className="font-semibold text-primary-deep">
           Kembali ke Latihan
@@ -107,7 +108,7 @@ export default function WritingPage() {
   }
   if (status === 'empty') {
     return (
-      <Notice>
+      <Notice className="mx-auto max-w-2xl">
         Belum ada prompt writing.{' '}
         <Link to="/practice" className="font-semibold text-primary-deep">
           Pilih kategori lain
@@ -241,12 +242,5 @@ function Section({ label, body }) {
       <p className="font-mono text-xs uppercase tracking-wider text-gray-400">{label}</p>
       <Markdown className="mt-2">{body}</Markdown>
     </div>
-  )
-}
-
-/** Pesan status terpusat (loading/kosong/error). */
-function Notice({ children }) {
-  return (
-    <div className="mx-auto max-w-2xl py-12 text-center text-sm text-gray-500">{children}</div>
   )
 }

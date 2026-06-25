@@ -17,6 +17,7 @@ import { formatDateShort } from '../lib/format'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
 import ScoreBadge from '../components/ui/ScoreBadge'
+import Notice from '../components/ui/Notice'
 
 // Band TOEFL sebagai skala penempatan 0–100 (selaras ScoreBadge).
 const BANDS = [
@@ -249,9 +250,4 @@ function ChartTooltip({ active, payload, label }) {
       </p>
     </div>
   )
-}
-
-/** Pesan status terpusat (loading/error). */
-function Notice({ children }) {
-  return <div className="py-12 text-center text-sm text-gray-500">{children}</div>
 }

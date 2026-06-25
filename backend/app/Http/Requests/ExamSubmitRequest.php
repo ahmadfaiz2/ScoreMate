@@ -17,8 +17,8 @@ class ExamSubmitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'exam_id'              => ['required', 'integer'],
-            'answers'             => ['required', 'array', 'min:1'],
+            'exam_id'               => ['required', 'integer'],
+            'answers'               => ['required', 'array', 'min:1'],
             'answers.*.question_id' => ['required', 'integer', 'exists:questions,id'],
             'answers.*.answer'      => ['required', 'string'],
         ];

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import api from '../api/client'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
+import Notice from '../components/ui/Notice'
 
 /**
  * Papan Peringkat (/leaderboard) — skor simulasi ujian terbaik tiap peserta.
@@ -110,9 +111,4 @@ export default function LeaderboardPage() {
       )}
     </div>
   )
-}
-
-/** Pesan status terpusat (loading/error). */
-function Notice({ children }) {
-  return <div className="py-12 text-center text-sm text-gray-500">{children}</div>
 }
