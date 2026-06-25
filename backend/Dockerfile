@@ -1,4 +1,4 @@
-# Image produksi backend Laravel ScoreMate (Docker — untuk EasyPanel/VPS).
+# Image produksi backend Laravel ScoreMate (Docker — untuk Render).
 # PHP 8.4 + Apache, terhubung ke Supabase (PostgreSQL).
 FROM php:8.4-apache
 
